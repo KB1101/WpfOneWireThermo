@@ -28,11 +28,6 @@ namespace WpfOneWireThermo
             InitializeComponent();
             this.isToolWindowHide = true;
         }
-        public MainWindow(Boolean allow)
-        {
-            this.AllowsTransparency = allow;
-            InitializeComponent();
-        }
 
         //Window always on top
         private void WindowDeactivated_Event(object sender, EventArgs e)
@@ -48,15 +43,49 @@ namespace WpfOneWireThermo
                 case Key.Escape:
                     this.Close();
                     break;
-                case Key.OemPlus:
+                case Key.OemPlus: // opacity increase
                     this.VisualOpacity += (this.VisualOpacity < 1.0)? 0.1 : 0.0;
                     break;
-                case Key.OemMinus:
+                case Key.OemMinus: // opcity decrease
                     this.VisualOpacity -= (this.VisualOpacity > 0.0) ? 0.1 : 0.0;
                     break;
+                case Key.B: // background turn on/off
+                    this.Background = (this.Background == Brushes.Transparent) ? Brushes.White:Brushes.Transparent;
+                    break;
+                case Key.D0:
+                    this.temperatureViewer.Foreground = Brushes.Black;
+                    break;
+                case Key.D1:
+                    this.temperatureViewer.Foreground = Brushes.White;
+                    break;
+                case Key.D2:
+                    this.temperatureViewer.Foreground = Brushes.Red;
+                    break;
+                case Key.D3:
+                    this.temperatureViewer.Foreground = Brushes.Green;
+                    break;
+                case Key.D4:
+                    this.temperatureViewer.Foreground = Brushes.Blue;
+                    break;
+                case Key.D5:
+                    this.temperatureViewer.Foreground = Brushes.DarkOrange;
+                    break;
+                case Key.D6:
+                    this.temperatureViewer.Foreground = Brushes.Cyan;
+                    break;
+                case Key.D7:
+                    this.temperatureViewer.Foreground = Brushes.MediumSeaGreen;
+                    break;
+                case Key.D8:
+                    this.temperatureViewer.Foreground = Brushes.DarkMagenta;
+                    break;
+                case Key.D9:
+                    this.temperatureViewer.Foreground = Brushes.Indigo;
+                    break;
+
+
 
             }
-
 
         }
         //double click on wondow then show toolwindow (???)
@@ -72,7 +101,7 @@ namespace WpfOneWireThermo
                 this.isToolWindowHide = true;
             }
         }
-
+        // window move
         private void DS18B20SensorViewer_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
