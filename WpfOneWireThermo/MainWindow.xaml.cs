@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace WpfOneWireThermo
 {
@@ -52,7 +53,7 @@ namespace WpfOneWireThermo
                 case Key.B: // background turn on/off
                     this.Background = (this.Background == Brushes.Transparent) ? Brushes.White:Brushes.Transparent;
                     break;
-                case Key.D0:
+                case Key.D0: // text colors
                     this.temperatureViewer.Foreground = Brushes.Black;
                     break;
                 case Key.D1:
@@ -79,7 +80,7 @@ namespace WpfOneWireThermo
                 case Key.D8:
                     this.temperatureViewer.Foreground = Brushes.DarkMagenta;
                     break;
-                case Key.D9:
+                case Key.D9: //end: text colors 
                     this.temperatureViewer.Foreground = Brushes.Indigo;
                     break;
 
@@ -89,11 +90,24 @@ namespace WpfOneWireThermo
 
         }
         //double click on wondow then show toolwindow (???)
-        private void DS18B20SensorViewer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private async void DS18B20SensorViewer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (this.isToolWindowHide) {
-
+                await Task.Run(() => {
+                    
+                        int i = 0;
+                while (i != 10)
+                {
+                    this.Dispatcher.BeginInvoke((Action)delegate { temperatureViewer.Content = $"{i}"; });
+                           // this.UpdateLayout();
+                            i++;
+                            Thread.Sleep(1000);
+                        }
+                  
+                });
+                
                 this.isToolWindowHide = false;
+
             }
             else
             {
@@ -107,5 +121,7 @@ namespace WpfOneWireThermo
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
         }
+ 
     }
+  
 }
