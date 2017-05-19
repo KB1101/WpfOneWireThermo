@@ -22,6 +22,7 @@ namespace WpfOneWireThermo
     public partial class MainWindow : Window
     {
         private Boolean isToolWindowHide;
+        private DS18B20 thermometer;
         
         public MainWindow()
         {
@@ -29,6 +30,9 @@ namespace WpfOneWireThermo
             InitializeComponent();
             this.isToolWindowHide = true;
 
+            thermometer = new DS18B20();
+            thermometer.OneWireRun("COM3");
+            ShowTemp();
         }
 
         //Window always on top
@@ -89,22 +93,10 @@ namespace WpfOneWireThermo
 
         }
         //double click on wondow then show toolwindow (???)
-        private async void DS18B20SensorViewer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void DS18B20SensorViewer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (this.isToolWindowHide) {
-                await Task.Run(() => {
-                    
-               int i = 0;
-                while (i != 10)
-                {
-                    this.Dispatcher.BeginInvoke((Action)delegate { temperatureViewer.Content = $"{i}"; });
-                           // this.UpdateLayout();
-                            i++;
-                            Thread.Sleep(1000);
-                        }
-                  
-                });
-                
+              
                 this.isToolWindowHide = false;
 
             }
@@ -113,6 +105,21 @@ namespace WpfOneWireThermo
 
                 this.isToolWindowHide = true;
             }
+        }
+        private async void ShowTemp()
+        {
+            await Task.Run(() => {
+                while (true)
+                {
+                    this.Dispatcher.BeginInvoke((Action)delegate {
+                        temperatureViewer.Content = $"{thermometer.GetSensorTemperature()}°C";
+                        temperatureViewer.UpdateLayout();
+                    });
+                  
+                    Thread.Sleep(4000);
+                }
+
+            });
         }
         // window move
         private void DS18B20SensorViewer_MouseDown(object sender, MouseButtonEventArgs e)

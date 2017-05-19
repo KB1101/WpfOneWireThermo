@@ -56,7 +56,7 @@ namespace WpfOneWireThermo
             {
                 byte resetState = oneWire.Reset();
                 // if device is present
-                if (resetState >= 0x10 && resetState <= 0x90)
+                if ((resetState >= 0x10 && resetState <= 0x90) || true)
                 {
                     oneWire.WriteByte(0xCC); // Skip ROM command
                     if (oneWire.ReadByte() != 0xCC) return result;

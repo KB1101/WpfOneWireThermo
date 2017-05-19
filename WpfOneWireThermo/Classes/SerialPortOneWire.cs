@@ -125,7 +125,7 @@ namespace WpfOneWireThermo
             }
             return (byte)bajt;
         }
-        public byte Reset(Boolean rfb = false)
+        public byte Reset(Boolean rfb = true)
         {
             byte returnedByte = 0xFF;
             byte[] bajt = new byte[1];
