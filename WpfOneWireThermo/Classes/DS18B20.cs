@@ -63,7 +63,8 @@ namespace WpfOneWireThermo
                     oneWire.WriteByte(0x44); // Convert temperature command
                     if (oneWire.ReadByte() != 0x44) return result;
 
-                    Thread.Sleep(800); // Wait for DS18B20 
+                     Thread.Sleep(800); // Wait for DS18B20 
+                    
 
                     // Get the Data
                     oneWire.Reset();

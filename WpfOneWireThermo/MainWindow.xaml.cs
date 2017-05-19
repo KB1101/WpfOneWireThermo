@@ -106,17 +106,20 @@ namespace WpfOneWireThermo
                 this.isToolWindowHide = true;
             }
         }
-        private async void ShowTemp()
+        private void ShowTemp()
         {
-            await Task.Run(() => {
+            Task.Run(async () =>
+            {
                 while (true)
                 {
-                    this.Dispatcher.BeginInvoke((Action)delegate {
+                    await this.Dispatcher.BeginInvoke((Action)delegate
+                    {
                         temperatureViewer.Content = $"{thermometer.GetSensorTemperature()}°C";
                         temperatureViewer.UpdateLayout();
                     });
-                  
-                    Thread.Sleep(4000);
+
+                    await Task.Delay(4000);
+                    //Thread.Sleep(4000);
                 }
 
             });

@@ -9,7 +9,7 @@
         Deactivated="WindowDeactivated_Event"
         ResizeMode="CanResizeWithGrip" 
         Cursor="Cross" 
-        ShowInTaskbar="False" 
+        ShowInTaskbar="True" 
         KeyUp="DS18B20SensorViewer_KeyUp" 
         WindowStyle="None" 
         MouseDoubleClick="DS18B20SensorViewer_MouseDoubleClick" 
