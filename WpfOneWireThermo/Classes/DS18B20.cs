@@ -11,11 +11,11 @@ namespace WpfOneWireThermo
     class DS18B20
     {
         private SerialPortOneWire oneWire;
-        public String[] oneWireAdapterPort { get; }
+        public String[] oneWireAdapterPorts { get; }
         public DS18B20()
         {
             this.oneWire = new SerialPortOneWire();
-            this.oneWireAdapterPort = oneWire.AviavailablePorts();
+            this.oneWireAdapterPorts = oneWire.AviavailablePorts();
             this.oneWire = null;
         }
         public void OneWireRun(String port)
@@ -63,7 +63,7 @@ namespace WpfOneWireThermo
                     oneWire.WriteByte(0x44); // Convert temperature command
                     if (oneWire.ReadByte() != 0x44) return result;
 
-                     Thread.Sleep(800); // Wait for DS18B20 
+                    Thread.Sleep(800);// Wait for DS18B20 
                     
 
                     // Get the Data

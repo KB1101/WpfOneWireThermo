@@ -23,6 +23,9 @@ namespace WpfOneWireThermo
     {
         private Boolean isToolWindowHide;
         private DS18B20 thermometer;
+
+        private Boolean started = false;
+        private String port = "X";
         
         public MainWindow()
         {
@@ -30,9 +33,11 @@ namespace WpfOneWireThermo
             InitializeComponent();
             this.isToolWindowHide = true;
 
+            this.temperatureViewer.Content = "Stopped";
             thermometer = new DS18B20();
-            thermometer.OneWireRun("COM3");
-            ShowTemp();
+            port = "COM3";
+            //thermometer.OneWireRun("COM3");
+            //ShowTemp();
         }
 
         //Window always on top
@@ -58,35 +63,122 @@ namespace WpfOneWireThermo
                 case Key.B: // background turn on/off
                     this.Background = (this.Background == Brushes.Transparent) ? Brushes.White:Brushes.Transparent;
                     break;
-                case Key.D0: // text colors
-                    this.temperatureViewer.Foreground = Brushes.Black;
+                case Key.D0: // text colors or COMX
+                    if (started == false)
+                    {
+                        port = "COM0";
+                        this.temperatureViewer.Content = port;
+                    }
+                    else
+                        this.temperatureViewer.Foreground = Brushes.Black;
                     break;
                 case Key.D1:
-                    this.temperatureViewer.Foreground = Brushes.White;
+                    if (started == false)
+                    {
+                        port = "COM1";
+                        this.temperatureViewer.Content = port;
+                    }
+                    else
+                        this.temperatureViewer.Foreground = Brushes.White;
                     break;
                 case Key.D2:
-                    this.temperatureViewer.Foreground = Brushes.Red;
+                    if (started == false)
+                    {
+                        port = "COM2";
+                        this.temperatureViewer.Content = port;
+                    }
+                    else
+                        this.temperatureViewer.Foreground = Brushes.Red;
                     break;
                 case Key.D3:
-                    this.temperatureViewer.Foreground = Brushes.Green;
+                    if (started == false)
+                    {
+                        port = "COM3";
+                        this.temperatureViewer.Content = port;
+                    }
+                    else
+                        this.temperatureViewer.Foreground = Brushes.Green;
                     break;
                 case Key.D4:
-                    this.temperatureViewer.Foreground = Brushes.Blue;
+                    if (started == false)
+                    {
+                        port = "COM4";
+                        this.temperatureViewer.Content = port;
+                    }
+                    else
+                        this.temperatureViewer.Foreground = Brushes.Blue;
                     break;
                 case Key.D5:
-                    this.temperatureViewer.Foreground = Brushes.DarkOrange;
+                    if (started == false)
+                    {
+                        port = "COM5";
+                        this.temperatureViewer.Content = port;
+                    }
+                    else
+                        this.temperatureViewer.Foreground = Brushes.DarkOrange;
                     break;
                 case Key.D6:
-                    this.temperatureViewer.Foreground = Brushes.Cyan;
+                    if (started == false)
+                    {
+                        port = "COM6";
+                        this.temperatureViewer.Content = port;
+                    }
+                    else
+                        this.temperatureViewer.Foreground = Brushes.Cyan;
                     break;
                 case Key.D7:
-                    this.temperatureViewer.Foreground = Brushes.MediumSeaGreen;
+                    if (started == false)
+                    {
+                        port = "COM7";
+                        this.temperatureViewer.Content = port;
+                    }
+                    else
+                        this.temperatureViewer.Foreground = Brushes.MediumSeaGreen;
                     break;
                 case Key.D8:
-                    this.temperatureViewer.Foreground = Brushes.DarkMagenta;
+                    if (started == false)
+                    {
+                        port = "COM8";
+                        this.temperatureViewer.Content = port;
+                    }
+                    else
+                        this.temperatureViewer.Foreground = Brushes.DarkMagenta;
+
                     break;
                 case Key.D9: //end: text colors 
-                    this.temperatureViewer.Foreground = Brushes.Indigo;
+                    if (started == false)
+                    {
+                        port = "COM9";
+                        this.temperatureViewer.Content = port;
+                    }
+                    else
+                        this.temperatureViewer.Foreground = Brushes.Indigo;
+                    break;
+                case Key.T: // show/hide on task bar
+                    this.ShowInTaskbar = (this.ShowInTaskbar == true) ? false : true;
+                    break;
+                case Key.R:
+                    if (started == false)
+                    {
+                       
+                        foreach (var aport in thermometer.oneWireAdapterPorts)
+                        {
+                            if (aport.Equals(port))
+                            {
+                                started = true;
+                                thermometer.OneWireRun(port);
+                                ShowTemp();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        started = false;
+                    }
+
+             
+                    break;
+                default:
                     break;
 
             }
@@ -95,8 +187,9 @@ namespace WpfOneWireThermo
         //double click on wondow then show toolwindow (???)
         private void DS18B20SensorViewer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (this.isToolWindowHide) {
-              
+            if (this.isToolWindowHide)
+            {
+
                 this.isToolWindowHide = false;
 
             }
@@ -110,7 +203,7 @@ namespace WpfOneWireThermo
         {
             Task.Run(async () =>
             {
-                while (true)
+                while (started)
                 {
                     await this.Dispatcher.BeginInvoke((Action)delegate
                     {
@@ -118,9 +211,15 @@ namespace WpfOneWireThermo
                         temperatureViewer.UpdateLayout();
                     });
 
-                    await Task.Delay(4000);
+                    await Task.Delay(5000);
                     //Thread.Sleep(4000);
                 }
+                await this.Dispatcher.BeginInvoke((Action)delegate
+                {
+                    temperatureViewer.Content = "Stopped";
+                    temperatureViewer.UpdateLayout();
+                });
+                
 
             });
         }
