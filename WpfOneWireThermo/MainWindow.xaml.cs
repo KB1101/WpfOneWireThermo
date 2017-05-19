@@ -28,6 +28,7 @@ namespace WpfOneWireThermo
             this.AllowsTransparency = true;
             InitializeComponent();
             this.isToolWindowHide = true;
+
         }
 
         //Window always on top
@@ -83,8 +84,6 @@ namespace WpfOneWireThermo
                 case Key.D9: //end: text colors 
                     this.temperatureViewer.Foreground = Brushes.Indigo;
                     break;
-
-
 
             }
 
