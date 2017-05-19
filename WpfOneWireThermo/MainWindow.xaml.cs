@@ -95,7 +95,7 @@ namespace WpfOneWireThermo
             if (this.isToolWindowHide) {
                 await Task.Run(() => {
                     
-                        int i = 0;
+               int i = 0;
                 while (i != 10)
                 {
                     this.Dispatcher.BeginInvoke((Action)delegate { temperatureViewer.Content = $"{i}"; });

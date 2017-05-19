@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfOneWireThermo"
         mc:Ignorable="d"
-        Title="OneWire DS18B20 Sensor" Height="70" Width="140" 
+        Title="OneWire DS18B20 Sensor" Height="70" Width="160" 
         Deactivated="WindowDeactivated_Event"
         ResizeMode="CanResizeWithGrip" 
         Cursor="Cross" 
@@ -16,6 +16,6 @@
         Opacity="1.0" MouseDown="DS18B20SensorViewer_MouseDown" 
        AllowsTransparency="True">
     <Viewbox x:Name="viewBox">
-        <Label x:Name="temperatureViewer" Content="-128.125*C" Margin="10"  FontSize="36" FontWeight="Bold" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Label x:Name="temperatureViewer" Content="-128.125*C"  FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,0" />
     </Viewbox>
 </Window>
