@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
 
+
 namespace WpfOneWireThermo
 {
     /// <summary>
@@ -40,6 +41,11 @@ namespace WpfOneWireThermo
             //ShowTemp();
         }
 
+        private void test()
+        {
+           
+            
+        }
         //Window always on top
         private void WindowDeactivated_Event(object sender, EventArgs e)
         {
@@ -175,9 +181,8 @@ namespace WpfOneWireThermo
                     {
                         started = false;
                     }
-
-             
                     break;
+
                 default:
                     break;
 
