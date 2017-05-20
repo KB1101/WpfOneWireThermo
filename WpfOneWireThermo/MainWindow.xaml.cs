@@ -200,7 +200,7 @@ namespace WpfOneWireThermo
             }
             else
             {
-
+                //todo: 
                 this.isToolWindowHide = true;
             }
         }
